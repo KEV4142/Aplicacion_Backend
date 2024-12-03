@@ -1,6 +1,8 @@
 using System.Net;
 using Aplicacion.Core;
 using Aplicacion.SucursalesColaboradores.GetSucursalColaboradores;
+using Aplicacion.SucursalesColaboradores.GetSucursalColaboradoresActivos;
+using Aplicacion.SucursalesColaboradores.GetSucursalesColaboradoresPagin;
 using Aplicacion.SucursalesColaboradores.SucursalesColaboradoresCreate;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +12,7 @@ using static Aplicacion.SucursalesColaboradores.GetSucursalColaboradores.GetSucu
 using static Aplicacion.SucursalesColaboradores.GetSucursalColaboradoresActivos.GetSucursalColaboradoresActivos;
 using static Aplicacion.SucursalesColaboradores.GetSucursalesColaboradores.GetSucursalesColaboradores;
 using static Aplicacion.SucursalesColaboradores.GetSucursalesColaboradoresActivas.GetSucursalesColaboradoresActivas;
+using static Aplicacion.SucursalesColaboradores.GetSucursalesColaboradoresPagin.GetSucursalesColaboradoresPaginQuery;
 using static Aplicacion.SucursalesColaboradores.SucursalesColaboradoresCreate.SucursalesColaboradoresCreateCommand;
 
 namespace WebApi.Controllers;
@@ -85,5 +88,19 @@ public class SucursalesColaboradoresController:ControllerBase
         var query = new GetSucursalColaboradoresActivosQueryRequest { SucursalID = id };
         var resultado = await _sender.Send(query, cancellationToken);
         return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest();
+    }
+    [Authorize(PolicyMaster.SUCURSALCOLABORADOR_READ)]
+    [HttpGet("paginacion")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<PagedList<SucursalColaboradoresActivosResponse>>> PaginationSucursalesColaboradores(
+        [FromQuery] GetSucursalesColaboradoresPaginRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+
+        var query = new GetSucursalesColaboradoresPaginQueryRequest { SucursalesColaboradoresPaginRequest = request };
+        var resultado = await _sender.Send(query, cancellationToken);
+
+        return resultado.IsSuccess ? Ok(resultado.Value) : NotFound();
     }
 }

@@ -13,6 +13,8 @@ using static Aplicacion.Transportistas.GetTransportistas.GetTransportistas;
 using static Aplicacion.Transportistas.GetTransportistasActivos.GetTransportistasActivos;
 using Microsoft.AspNetCore.Authorization;
 using Modelo.entidades;
+using Aplicacion.Transportistas.GetTransportistasPagin;
+using static Aplicacion.Transportistas.GetTransportistasPagin.GetTransportistasPaginQuery;
 
 namespace WebApi.Controllers;
 
@@ -75,6 +77,21 @@ public class TransportistasController : ControllerBase
         var query = new GetTransportistaQueryRequest { TransportistaID = id };
         var resultado = await _sender.Send(query, cancellationToken);
         return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest();
+    }
+
+    [Authorize(PolicyMaster.TRANSPORTISTA_READ)]
+    [HttpGet("paginacion")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<PagedList<TransportistaResponse>>> PaginationTransportistas(
+        [FromQuery] GetTransportistasPaginRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+
+        var query = new GetTransportistasPaginQueryRequest { TransportistasPaginRequest = request };
+        var resultado = await _sender.Send(query, cancellationToken);
+
+        return resultado.IsSuccess ? Ok(resultado.Value) : NotFound();
     }
 
     [Authorize(PolicyMaster.TRANSPORTISTA_UPDATE)]

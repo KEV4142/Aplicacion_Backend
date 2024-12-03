@@ -1,5 +1,7 @@
 using System.Net;
+using Aplicacion.Core;
 using Aplicacion.Sucursales.GetSucursal;
+using Aplicacion.Sucursales.GetSucursalesPagin;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +9,7 @@ using Modelo.entidades;
 using static Aplicacion.Sucursales.GetSucursal.GetSucursal;
 using static Aplicacion.Sucursales.GetSucursales.GetSucursales;
 using static Aplicacion.Sucursales.GetSucursalesActivas.GetSucursalesActivas;
+using static Aplicacion.Sucursales.GetSucursalesPagin.GetSucursalesPaginQuery;
 
 namespace WebApi.Controllers;
 
@@ -57,5 +60,20 @@ public class SucursalesController:ControllerBase
         var query = new GetSucursalesActivasQueryRequest();
         var resultado = await _sender.Send(query, cancellationToken);
         return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest();
+    }
+
+    [Authorize(PolicyMaster.SUCURSAL_READ)]
+    [HttpGet("paginacion")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<PagedList<SucursalResponse>>> PaginationSucursales(
+        [FromQuery] GetSucursalesPaginRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+
+        var query = new GetSucursalesPaginQueryRequest { SucursalesPaginRequest = request };
+        var resultado = await _sender.Send(query, cancellationToken);
+
+        return resultado.IsSuccess ? Ok(resultado.Value) : NotFound();
     }
 }

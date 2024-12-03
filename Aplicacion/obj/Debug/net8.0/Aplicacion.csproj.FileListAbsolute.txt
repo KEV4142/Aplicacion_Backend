@@ -15,3 +15,4 @@
 /home/kgalvez/Escritorio/Aplicacion/Backend/Aplicacion/obj/Debug/net8.0/refint/Aplicacion.dll
 /home/kgalvez/Escritorio/Aplicacion/Backend/Aplicacion/obj/Debug/net8.0/Aplicacion.pdb
 /home/kgalvez/Escritorio/Aplicacion/Backend/Aplicacion/obj/Debug/net8.0/ref/Aplicacion.dll
+/home/kgalvez/Escritorio/Aplicacion/Backend/Aplicacion/obj/Debug/net8.0/Aplicacion.sourcelink.json

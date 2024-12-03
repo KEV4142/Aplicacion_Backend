@@ -9,3 +9,4 @@
 /home/kgalvez/Escritorio/Aplicacion/Backend/Modelo/obj/Debug/net8.0/refint/Modelo.dll
 /home/kgalvez/Escritorio/Aplicacion/Backend/Modelo/obj/Debug/net8.0/Modelo.pdb
 /home/kgalvez/Escritorio/Aplicacion/Backend/Modelo/obj/Debug/net8.0/ref/Modelo.dll
+/home/kgalvez/Escritorio/Aplicacion/Backend/Modelo/obj/Debug/net8.0/Modelo.sourcelink.json

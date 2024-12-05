@@ -156,6 +156,22 @@ public static class PoliciesConfiguration
                     )
                    )
             );
+            opt.AddPolicy(
+                PolicyMaster.USUARIO_CREATE, policy =>
+                   policy.RequireAssertion(
+                    context => context.User.HasClaim(
+                    c => c.Type == CustomClaims.POLICIES && c.Value == PolicyMaster.USUARIO_CREATE
+                    )
+                   )
+            );
+            opt.AddPolicy(
+                PolicyMaster.USUARIO_UPDATE, policy =>
+                   policy.RequireAssertion(
+                    context => context.User.HasClaim(
+                    c => c.Type == CustomClaims.POLICIES && c.Value == PolicyMaster.USUARIO_UPDATE
+                    )
+                   )
+            );
         }
 
 

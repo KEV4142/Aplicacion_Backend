@@ -1,0 +1,3 @@
+# no incluir compilados
+bin/
+obj/

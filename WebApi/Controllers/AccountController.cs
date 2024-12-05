@@ -3,12 +3,15 @@ using System.Net;
 using Aplicacion.Accounts;
 using Aplicacion.Accounts.GetCurrentUser;
 using Aplicacion.Accounts.Login;
+using Aplicacion.Accounts.UsuarioCreate;
 using Aplicacion.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Modelo.entidades;
 using static Aplicacion.Accounts.GetCurrentUser.GetCurrentUserQuery;
 using static Aplicacion.Accounts.Login.LoginCommand;
+using static Aplicacion.Accounts.UsuarioCreate.UsuarioCreateCommand;
 
 namespace WebApi.Controllers;
 [ApiController]
@@ -47,5 +50,16 @@ public class AccountController : ControllerBase
         var resultado =  await _sender.Send(query, cancellationToken);
         return resultado.IsSuccess ? Ok(resultado.Value) : Unauthorized();
     }
-
+    [Authorize(PolicyMaster.USUARIO_CREATE)]
+    [HttpPost("agregar")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<Profile>> AgregarUsuario(
+        [FromBody] UsuarioCreateRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new UsuarioCreateCommandRequest(request);
+        var resultado = await _sender.Send(command, cancellationToken);
+        return resultado.IsSuccess ? Ok(resultado.Value) : Unauthorized(resultado);
+    }
 }

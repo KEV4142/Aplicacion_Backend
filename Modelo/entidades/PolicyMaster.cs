@@ -22,5 +22,7 @@ namespace Modelo.entidades
     public const string COLABORADOR_READ = nameof(COLABORADOR_READ);
     public const string COLABORADOR_UPDATE = nameof(COLABORADOR_UPDATE);
     public const string COLABORADOR_CREATE = nameof(COLABORADOR_CREATE);
+    public const string USUARIO_CREATE = nameof(USUARIO_CREATE);
+    public const string USUARIO_UPDATE = nameof(USUARIO_UPDATE);
     }
 }

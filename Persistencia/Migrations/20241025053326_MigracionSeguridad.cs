@@ -175,7 +175,30 @@ namespace Persistencia.Migrations
                 {
                     { 1, "POLICIES", "TRANSPORTISTA_READ", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
                     { 2, "POLICIES", "TRANSPORTISTA_UPDATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
-                    { 3, "POLICIES", "TRANSPORTISTA_WRITE", "51df7aae-a506-46ff-8e34-9f2f0c661885" }
+                    { 3, "POLICIES", "TRANSPORTISTA_WRITE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 4, "POLICIES", "VIAJE_READ", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 5, "POLICIES", "VIAJE_UPDATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 6, "POLICIES", "VIAJE_CREATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 7, "POLICIES", "VIAJEDETALLE_READ", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 8, "POLICIES", "VIAJEDETALLE_UPDATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 9, "POLICIES", "VIAJEDETALLE_CREATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 10, "POLICIES", "SUCURSALCOLABORADOR_READ", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 11, "POLICIES", "SUCURSALCOLABORADOR_UPDATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 12, "POLICIES", "SUCURSALCOLABORADOR_CREATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 13, "POLICIES", "SUCURSAL_READ", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 14, "POLICIES", "SUCURSAL_UPDATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 15, "POLICIES", "SUCURSAL_CREATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 16, "POLICIES", "COLABORADOR_READ", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 17, "POLICIES", "COLABORADOR_UPDATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 18, "POLICIES", "COLABORADOR_CREATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 19, "POLICIES", "TRANSPORTISTA_READ", "368cb24e-03d3-4a01-b558-dbde9b33272c" },
+                    { 20, "POLICIES", "VIAJE_READ", "368cb24e-03d3-4a01-b558-dbde9b33272c" },
+                    { 21, "POLICIES", "VIAJEDETALLE_READ", "368cb24e-03d3-4a01-b558-dbde9b33272c" },
+                    { 22, "POLICIES", "SUCURSALCOLABORADOR_READ", "368cb24e-03d3-4a01-b558-dbde9b33272c" },
+                    { 23, "POLICIES", "SUCURSAL_READ", "368cb24e-03d3-4a01-b558-dbde9b33272c" },
+                    { 24, "POLICIES", "COLABORADOR_READ", "368cb24e-03d3-4a01-b558-dbde9b33272c" },
+                    { 25, "POLICIES", "USUARIO_CREATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" },
+                    { 26, "POLICIES", "USUARIO_UPDATE", "51df7aae-a506-46ff-8e34-9f2f0c661885" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -1,3 +1,4 @@
+using Aplicacion.Accounts.GetUsuariosPagin;
 using Aplicacion.Colaboradores.GetColaborador;
 using Aplicacion.Sucursales.GetSucursal;
 using Aplicacion.SucursalesColaboradores.GetSucursalColaboradores;
@@ -6,6 +7,7 @@ using Aplicacion.Transportistas.GetTransportista;
 using Aplicacion.Viajes.GetViaje;
 using AutoMapper;
 using Modelo.entidades;
+using Persistencia.Models;
 
 namespace Aplicacion.Core;
 public class MappingProfile:Profile
@@ -17,6 +19,8 @@ public class MappingProfile:Profile
          CreateMap<SucursalColaborador, SucursalesColaboradoresResponse>();
          CreateMap<Colaborador, ColaboradorResponse>();
          CreateMap<Viaje, ViajeResponse>();
+
+   
     }
    
 }

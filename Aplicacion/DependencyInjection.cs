@@ -23,6 +23,7 @@ public static class DependencyInjection
 
         services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
+
         return services;
     }
 }

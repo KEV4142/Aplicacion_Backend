@@ -10,6 +10,11 @@ public static class PoliciesConfiguration
         services.AddAuthorization(opt =>
         {
             opt.AddPolicy(
+                CustomRoles.ADMIN, policy =>
+                   policy.RequireRole(CustomRoles.ADMIN)
+            );
+
+            opt.AddPolicy(
                 PolicyMaster.TRANSPORTISTA_READ, policy =>
                    policy.RequireAssertion(
                     context => context.User.HasClaim(

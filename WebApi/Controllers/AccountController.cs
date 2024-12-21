@@ -2,16 +2,23 @@
 using System.Net;
 using Aplicacion.Accounts;
 using Aplicacion.Accounts.GetCurrentUser;
+using Aplicacion.Accounts.GetUsuariosPagin;
 using Aplicacion.Accounts.Login;
 using Aplicacion.Accounts.UsuarioCreate;
+using Aplicacion.Accounts.UsuarioUpdate;
+using Aplicacion.Accounts.UsuarioUpdatePassword;
+using Aplicacion.Core;
 using Aplicacion.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Modelo.entidades;
 using static Aplicacion.Accounts.GetCurrentUser.GetCurrentUserQuery;
+using static Aplicacion.Accounts.GetUsuariosPagin.GetUsuariosPaginQuery;
 using static Aplicacion.Accounts.Login.LoginCommand;
 using static Aplicacion.Accounts.UsuarioCreate.UsuarioCreateCommand;
+using static Aplicacion.Accounts.UsuarioUpdate.UsuarioUpdateCommand;
+using static Aplicacion.Accounts.UsuarioUpdatePassword.UsuarioUpdatePasswordCommand;
 
 namespace WebApi.Controllers;
 [ApiController]
@@ -61,5 +68,48 @@ public class AccountController : ControllerBase
         var command = new UsuarioCreateCommandRequest(request);
         var resultado = await _sender.Send(command, cancellationToken);
         return resultado.IsSuccess ? Ok(resultado.Value) : Unauthorized(resultado);
+    }
+
+    [Authorize(PolicyMaster.USUARIO_UPDATE)]
+    [HttpPut("{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<Profile>> ActualizarUsuario(
+        [FromBody] UsuarioUpdateRequest request,
+        string id,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new UsuarioUpdateCommandRequest(request,id);
+        var resultado = await _sender.Send(command, cancellationToken);
+        return resultado.IsSuccess ? Ok(resultado.Value) : Unauthorized(resultado);
+    }
+
+    [Authorize(PolicyMaster.USUARIO_UPDATE)]
+    [HttpPut("password/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<Profile>> ActualizarPasswordUsuario(
+        [FromBody] UsuarioUpdatePasswordRequest request,
+        string id,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new UsuarioUpdatePasswordCommandRequest(request,id);
+        var resultado = await _sender.Send(command, cancellationToken);
+        return resultado.IsSuccess ? Ok(resultado.Value) : Unauthorized(resultado);
+    }
+
+    [Authorize(Roles = CustomRoles.ADMIN)]
+    [HttpGet("paginacion")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<PagedList<UsuarioResponse>>> PaginationUsuarios(
+        [FromQuery] GetUsuariosPaginRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+
+        var query = new GetUsuariosPaginQueryRequest { UsuariosPaginRequest = request };
+        var resultado = await _sender.Send(query, cancellationToken);
+
+        return resultado.IsSuccess ? Ok(resultado.Value) : NotFound();
     }
 }

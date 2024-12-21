@@ -33,6 +33,15 @@ public class TokenService : ITokenService
                         ON ar.RoleId = aspr.RoleId
                     WHERE a.Id = {usuario.Id}
         ").ToListAsync();
+
+        var roles = await _context.Database.SqlQuery<string>($@"
+            SELECT
+                r.Name
+            FROM AspNetUserRoles ur
+                INNER JOIN AspNetRoles r
+                ON ur.RoleId = r.Id
+            WHERE ur.UserId = {usuario.Id}
+            ").ToListAsync();
         
         var claims = new List<Claim>
         {
@@ -48,6 +57,14 @@ public class TokenService : ITokenService
                 claims.Add(new (CustomClaims.POLICIES, policy));
             }
         }
+
+        foreach (var role in roles)
+    {
+        if (role is not null)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+    }
 
         var creds = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenKey"]!)),

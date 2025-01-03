@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Authorization;
 using Modelo.entidades;
 using Aplicacion.Transportistas.GetTransportistasPagin;
 using static Aplicacion.Transportistas.GetTransportistasPagin.GetTransportistasPaginQuery;
+using Aplicacion.Transportistas.TransportistaUpdateEstado;
+using static Aplicacion.Transportistas.TransportistaUpdateEstado.TransportistaUpdateEstadoCommand;
 
 namespace WebApi.Controllers;
 
@@ -37,7 +39,7 @@ public class TransportistasController : ControllerBase
     {
         var command = new TransportistaCreateCommandRequest(request);
         var resultado = await _sender.Send(command, cancellationToken);
-        return resultado;
+        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest(resultado);;
     }
 
     [Authorize(PolicyMaster.TRANSPORTISTA_READ)]
@@ -50,7 +52,7 @@ public class TransportistasController : ControllerBase
     {
         var query = new GetTransportistasQueryRequest();
         var resultado = await _sender.Send(query, cancellationToken);
-        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest();
+        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest(resultado);
     }
 
     [Authorize(PolicyMaster.TRANSPORTISTA_READ)]
@@ -63,7 +65,7 @@ public class TransportistasController : ControllerBase
     {
         var query = new GetTransportistasActivosQueryRequest();
         var resultado = await _sender.Send(query, cancellationToken);
-        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest();
+        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest(resultado);
     }
 
     [Authorize(PolicyMaster.TRANSPORTISTA_READ)]
@@ -76,7 +78,7 @@ public class TransportistasController : ControllerBase
     {
         var query = new GetTransportistaQueryRequest { TransportistaID = id };
         var resultado = await _sender.Send(query, cancellationToken);
-        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest();
+        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest(resultado);
     }
 
     [Authorize(PolicyMaster.TRANSPORTISTA_READ)]
@@ -91,7 +93,7 @@ public class TransportistasController : ControllerBase
         var query = new GetTransportistasPaginQueryRequest { TransportistasPaginRequest = request };
         var resultado = await _sender.Send(query, cancellationToken);
 
-        return resultado.IsSuccess ? Ok(resultado.Value) : NotFound();
+        return resultado.IsSuccess ? Ok(resultado.Value) : NotFound(resultado);
     }
 
     [Authorize(PolicyMaster.TRANSPORTISTA_UPDATE)]
@@ -104,6 +106,19 @@ public class TransportistasController : ControllerBase
     {
         var command = new TransportistaUpdateCommandRequest(request, id);
         var resultado = await _sender.Send(command, cancellationToken);
-        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest();
+        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest(resultado);
+    }
+
+    [Authorize(PolicyMaster.TRANSPORTISTA_UPDATE)]
+    [HttpPut("estado/{id}")]
+    public async Task<ActionResult<Result<int>>> TransportistaUpdateEstado(
+        [FromBody] TransportistaUpdateEstadoRequest request,
+        int id,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new TransportistaUpdateEstadoCommandRequest(request, id);
+        var resultado = await _sender.Send(command, cancellationToken);
+        return resultado.IsSuccess ? Ok(resultado) : BadRequest(resultado);
     }
 }

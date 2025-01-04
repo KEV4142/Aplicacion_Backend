@@ -1,10 +1,26 @@
 using Aplicacion;
+using DotNetEnv;
 using Persistencia;
 using WebApi.Extensions;
 using WebApi.Middleware;
 
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables()
+    .AddInMemoryCollection(new Dictionary<string, string?>
+    {
+        { "ConnectionStrings:DefaultConnection", Environment.GetEnvironmentVariable("DB_CONNECTION")! },
+        { "TokenKey", Environment.GetEnvironmentVariable("TOKEN_KEY")! }
+    });
+
+
+
 builder.Services.AddApplicacion();
 builder.Services.AddPersistencia(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
@@ -32,6 +48,8 @@ app.UseAuthorization();
 await app.SeedDataAuthentication();
 app.UseCors("corsapp");
 app.MapControllers();
+
+
 app.Run();
 
 

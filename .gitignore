@@ -1,3 +1,6 @@
-# no incluir compilados
+# no incluir compilados ni variables de entorno
 bin/
 obj/
+
+
+.env

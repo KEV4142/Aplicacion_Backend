@@ -1,5 +1,3 @@
-
-
 namespace Aplicacion.Transportistas.TransportistaCreate;
 public class TransportistaCreateRequest
 {

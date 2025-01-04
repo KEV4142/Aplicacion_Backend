@@ -2,6 +2,9 @@ using System.Net;
 using Aplicacion.Core;
 using Aplicacion.Sucursales.GetSucursal;
 using Aplicacion.Sucursales.GetSucursalesPagin;
+using Aplicacion.Sucursales.SucursalesCreate;
+using Aplicacion.Sucursales.SucursalesUpdate;
+using Aplicacion.Sucursales.SucursalesUpdateEstado;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +13,9 @@ using static Aplicacion.Sucursales.GetSucursal.GetSucursal;
 using static Aplicacion.Sucursales.GetSucursales.GetSucursales;
 using static Aplicacion.Sucursales.GetSucursalesActivas.GetSucursalesActivas;
 using static Aplicacion.Sucursales.GetSucursalesPagin.GetSucursalesPaginQuery;
+using static Aplicacion.Sucursales.SucursalesCreate.SucursalesCreateCommand;
+using static Aplicacion.Sucursales.SucursalesUpdate.SucursalesUpdateCommand;
+using static Aplicacion.Sucursales.SucursalesUpdateEstado.SucursalesUpdateEstadoCommand;
 
 namespace WebApi.Controllers;
 
@@ -23,6 +29,43 @@ public class SucursalesController:ControllerBase
         _sender = sender;
     }
     
+    [Authorize(PolicyMaster.SUCURSAL_CREATE)]
+    [HttpPost("registro")]
+    public async Task<ActionResult<Result<int>>> SucursalCreate(
+        [FromBody] SucursalesCreateRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new SucursalesCreateCommandRequest(request);
+        var resultado = await _sender.Send(command, cancellationToken);
+        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest(resultado);;
+    }
+
+    [Authorize(PolicyMaster.SUCURSAL_UPDATE)]
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Result<int>>> SucursalUpdate(
+        [FromBody] SucursalesUpdateRequest request,
+        int id,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new SucursalesUpdateCommandRequest(request, id);
+        var resultado = await _sender.Send(command, cancellationToken);
+        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest(resultado);
+    }
+
+    [Authorize(PolicyMaster.SUCURSAL_UPDATE)]
+    [HttpPut("estado/{id}")]
+    public async Task<ActionResult<Result<int>>> SucursalUpdateEstado(
+        [FromBody] SucursalesUpdateEstadoRequest request,
+        int id,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new SucursalesUpdateEstadoCommandRequest(request, id);
+        var resultado = await _sender.Send(command, cancellationToken);
+        return resultado.IsSuccess ? Ok(resultado) : BadRequest(resultado);
+    }
+
     [Authorize(PolicyMaster.SUCURSAL_READ)]
     [HttpGet("{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]

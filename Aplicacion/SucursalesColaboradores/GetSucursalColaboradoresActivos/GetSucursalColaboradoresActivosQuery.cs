@@ -36,7 +36,7 @@ public class GetSucursalColaboradoresActivos
                 x.SucursalID,
                 x.Sucursal.Descripcion,
                 x.ColaboradorID,
-                x.Colaborador.Nombre,
+                Funciones.ToProperCase(x.Colaborador.Nombre),
                 x.Distancia,
                 x.Estado
             )).ToListAsync();

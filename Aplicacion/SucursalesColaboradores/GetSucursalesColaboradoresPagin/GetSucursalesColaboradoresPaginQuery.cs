@@ -83,7 +83,7 @@ public class GetSucursalesColaboradoresPaginQuery
                                                     sc.SucursalID,
                                                     sc.Sucursal.Descripcion,
                                                     sc.ColaboradorID,
-                                                    sc.Colaborador.Nombre,
+                                                    Funciones.ToProperCase(sc.Colaborador.Nombre),
                                                     sc.Distancia,
                                                     sc.Estado
                                                 ));

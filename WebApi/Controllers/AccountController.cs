@@ -55,7 +55,7 @@ public class AccountController : ControllerBase
         var request = new GetCurrentUserRequest {Email = email};
         var query = new GetCurrentUserQueryRequest(request);
         var resultado =  await _sender.Send(query, cancellationToken);
-        return resultado.IsSuccess ? Ok(resultado.Value) : Unauthorized();
+        return resultado.IsSuccess ? Ok(resultado.Value) : Unauthorized(resultado);
     }
     [Authorize(PolicyMaster.USUARIO_CREATE)]
     [HttpPost("agregar")]

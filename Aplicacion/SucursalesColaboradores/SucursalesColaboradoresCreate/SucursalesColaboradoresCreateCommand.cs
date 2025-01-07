@@ -57,7 +57,7 @@ public class SucursalesColaboradoresCreateCommand
                                     );
             if (existeRegistro is not null)
             {
-                return Result<int>.Failure($"Ya se tiene Registro del Colaborador(ID: {sucursalColaborador.ColaboradorID}) en la Sucursal(ID: {sucursalColaborador.SucursalID}).");
+                return Result<int>.Failure($"Ya se tiene Registro del Colaborador(ID: {Funciones.ToProperCase(sucursalColaborador.Colaborador.Nombre)}) en la Sucursal(ID: {sucursalColaborador.Sucursal.Descripcion}).");
             }
 
             _backendContext.Add(sucursalColaborador);

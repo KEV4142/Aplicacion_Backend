@@ -43,7 +43,7 @@ public class AccountController : ControllerBase
     {
         var command = new LoginCommandRequest(request);
         var resultado = await _sender.Send(command, cancellationToken);
-        return resultado.IsSuccess ? Ok(resultado.Value) : Unauthorized();
+        return resultado.IsSuccess ? Ok(resultado.Value) : Unauthorized(resultado);
     }
 
     [Authorize]

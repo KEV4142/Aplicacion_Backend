@@ -29,13 +29,6 @@ public class BackendContext : IdentityDbContext<AppUser>
 
     public virtual DbSet<ViajeDetalle> ViajesDetalles { get; set; }
 
-    /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=localhost;Database=Viajes;User Id=sa;Password=Arkaine+41;Encrypt=False;");
- */
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer(conexion);
-    }*/
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

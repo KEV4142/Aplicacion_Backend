@@ -39,7 +39,7 @@ public class TransportistasController : ControllerBase
     {
         var command = new TransportistaCreateCommandRequest(request);
         var resultado = await _sender.Send(command, cancellationToken);
-        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest(resultado);;
+        return resultado.IsSuccess ? Ok(resultado.Value) : BadRequest(resultado);
     }
 
     [Authorize(PolicyMaster.TRANSPORTISTA_READ)]

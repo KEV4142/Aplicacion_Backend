@@ -8,7 +8,6 @@ namespace Persistencia;
 
 public class BackendContext : IdentityDbContext<AppUser>
 {
-    // private const string conexion = @"Server=localhost;Database=Viajes;User Id=sa;Password=Arkaine+41;Encrypt=False;";
     public BackendContext()
     {
     }
@@ -157,7 +156,6 @@ public class BackendContext : IdentityDbContext<AppUser>
                     .HasConstraintName("fkViajesDetalleUsuarioID");
         });
 
-        // OnModelCreatingPartial(modelBuilder);
         CargarDataSeguridad(modelBuilder);
     }
     private void CargarDataSeguridad(ModelBuilder modelBuilder)
@@ -208,5 +206,4 @@ public class BackendContext : IdentityDbContext<AppUser>
              }
         );
     }
-    // partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
